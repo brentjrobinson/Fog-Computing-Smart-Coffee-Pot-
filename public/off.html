@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="https://emojipedia-us.s3.amazonaws.com/thumbs/120/google/119/hot-beverage_2615.png">
+
+    <title>Smart Coffee Pot</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <link href="http://getbootstrap.com/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.2.4.min.js"></script>
+
+    <!-- Custom styles for this template -->
+    <link href="http://getbootstrap.com/examples/jumbotron-narrow/jumbotron-narrow.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="container">
+      <div class="header clearfix">
+        <nav>
+          <ul class="nav nav-pills pull-right">
+            <li role="presentation" class="active"><a href="#">Home</a></li>
+          </ul>
+        </nav>
+        <h3 class="text-muted">Smart Coffee Pot</h3>
+      </div>
+
+      <div class="jumbotron">
+        <h1>Current Coffee Pot Status</h1>
+        <p class="lead" ; id = "status">🕒Refreshing data...
+        <div class="jumbotron"; style="background:#79CDCD; border-style:solid; border: 1px;  padding: 5px; padding-left: 20px; ">
+          <h3 id = "potStatus" >🕒Refreshing data...
+          <script>
+       setInterval(
+        function update(){
+          
+            fetch('/api/temperature')  
+              .then(  
+                function(response) {  
+                  
+                  if (response.status !== 200) {  
+                    console.log('Looks like there was a problem. Status Code: ' +  
+                      response.status);  
+                    return;  
+                  } 
+                  // Examine the text in the response  
+                  response.json().then(function(data) {  
+                    console.log(data);  
+                  var lastTemp = "<h3>🕒Refreshing data...</h3>";
+                  var lastStatus = "<h3>🕒Refreshing data...</h3>";
+                  var newDiv = document.createElement("p"); 
+                  
+                  var currentDiv = document.getElementById("status");
+                  var statusDiv = document.getElementById("potStatus");
+                  currentDiv.innerHTML = lastTemp;
+                  statusDiv.innerHTML = lastStatus;
+                   if (data.temperature >= 105){
+                      currentDiv.innerHTML = "🌡️🔥️Current temp: "+ data.temperature.toFixed(2) + "°F" ;
+                      lastTemp = currentDiv.innerHTML;
+                      statusDiv.innerHTML = "<h3>☕ The coffee pot is off, but coffee was made a while ago!</h3>";
+                      lastStatus = statusDiv.innerHTML;  
+                      //statusDiv.appendChild(brewedContent);
+                    } else if (data.temperature < 105 && data.temperature > 80){
+                      currentDiv.innerHTML = "🌡️♨️️Current temp: "+ data.temperature.toFixed(2)+ "°F" ;
+                      lastTemp = currentDiv.innerHTML;
+                       statusDiv.innerHTML = "<h3>Coffee pot currently cooling down!⏰</h3>"; 
+                       lastStatus = statusDiv.innerHTML;  
+                       //statusDiv.appendChild(brewedContent);
+                    } else {
+                      currentDiv.innerHTML = "🌡️❄️️Current temp: "+ data.temperature.toFixed(2) + "°F" ;
+                      lastTemp = currentDiv.innerHTML;
+                       statusDiv.innerHTML = "<h3>Coffee pot is off!!🚨</h3>";  
+                       lastStatus = statusDiv.innerHTML; 
+                       //statusDiv.appendChild(brewedContent);
+                    }
+                      var clearCurrentDiv = document.getElementById("status");
+           var clearStatusDiv = document.getElementById("potStatus");
+           clearCurrentDiv.innerHTML = lastTemp;
+           clearStatusDiv.innerHTML = lastStatus;
+                      
+                  }); 
+                }  
+              )  
+              .catch(function(err) {  
+                console.log('Fetch Error :-S', err);
+              });
+           // setTimeout("location.reload(true);", 30000);
+           
+            },4000);
+
+            
+            </script>
+            </h3>
+            </p>
+			
+			<h3 id = 'elaspsed' ><script>
+				 fetch('/api/lastBrew')  
+              .then(  
+                function(response) {  
+                  
+                  if (response.status !== 200) {  
+                    console.log('Looks like there was a problem. Status Code: ' +  
+                      response.status);  
+                    return;  
+                  } 
+                  // Examine the text in the response  
+                  response.json().then(function(data) {  
+                    console.log(data);  
+                      
+                  }); 
+                }  
+              )  
+              .catch(function(err) {  
+                console.log('Fetch Error :-S', err);
+              });
+			</script></h3>
+          </div>
+        <h3> Coffee pot is: <strong>OFF</strong></h3>
+        <p >
+		<form action="/turnOn" method="GET" class="navbar-form navbar-left" role="form">
+			<button type="submit" class="btn btn-success" >Turn On</button>
+		</form>
+		<form action="/turnOff" method="GET" class="navbar-form navbar-left"role="form">
+			<button type="submit" class="btn btn-danger" disabled>Turn Off</button>
+		</form>
+      </div>
+
+ 
+     <div class="row marketing">
+        <div class="col-lg-6">
+          <h4>Features</h4>
+          <ul>
+               <li>Web app </li>
+               <li>Slack Notification</li>
+               <li>On/Off control  </li>
+               <li>Bonus Features 💡</li>
+               <ul>
+                <li>Google Home Integration</li>
+               </ul>
+          </ul>
+
+          <h4>Current Hardware</h4>
+          <ul>
+            <li>Raspberry Pi Zero W</li>
+            <li>Waterproof Temperature Sensor (DS18B20)</li>
+              <ul>
+                <li>4.7k Ohm Resistor</li>
+				<li>5v Relay</li>
+              </ul>
+            <li>Female-male jumper cables</li>
+            <li>Breadboard</li>
+            <li>GPIO Header for Zero W</li>
+
+          </ul>      
+     
+        </div>
+
+        <div class="col-lg-6">
+          <h4>Group 1 Team Members</h4>
+          <ul>
+               <li>Brent Robinson</li>
+               <ul>
+                <li>Team Leader</li>
+               </ul>
+               <li>Chip Gardner</li>
+               <li>Justin Voorhees</li>
+          </ul>
+        </div>
+      </div>
+
+      <footer class="footer">
+        <p>© 2018 FOG Computing.</p>
+      </footer>
+
+    </div> <!-- /container -->
+
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script src="http://getbootstrap.com/assets/js/ie10-viewport-bug-workaround.js"></script>
+  </body>
+</html>
