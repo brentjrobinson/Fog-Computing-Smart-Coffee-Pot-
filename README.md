@@ -1,5 +1,7 @@
 **Smart Coffee Pot Project**
 This project was created for a special topics course in fog computing. We chose to take a normal coffee pot with simple on/off functionality and add 'smart' features to it. 
+
+
 **Materials**
 
  - Raspberry Pi Zero W
