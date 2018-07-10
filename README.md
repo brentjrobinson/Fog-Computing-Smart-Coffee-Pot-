@@ -1,6 +1,7 @@
 **Smart Coffee Pot Project**
 This project was created for a special topics course in fog computing. We chose to take a normal coffee pot with simple on/off functionality and add 'smart' features to it. 
 
+![UI ](https://i.gyazo.com/0f27593ce1b50fbd0ce59e2298661a1a.png)
 
 **Materials**
 
